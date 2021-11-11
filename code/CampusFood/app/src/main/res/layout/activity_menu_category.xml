@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MenuCategory">
+
+    <TextView
+        android:id="@+id/tvDate"
+        android:layout_width="223dp"
+        android:layout_height="31dp"
+        android:layout_marginTop="11dp"
+        android:textAlignment="center"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/tvOpening"
+        app:layout_constraintEnd_toStartOf="@+id/btnNextDayCat"
+        app:layout_constraintStart_toEndOf="@+id/btnPrevDayCat"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btnPrevDayCat"
+        android:layout_width="94dp"
+        android:layout_height="47dp"
+        android:text="@string/prev"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/tvOpening"
+        app:layout_constraintEnd_toStartOf="@+id/tvDate"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btnNextDayCat"
+        android:layout_width="94dp"
+        android:layout_height="47dp"
+        android:text="@string/next"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/tvOpening"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tvDate"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvOpening"
+        android:layout_width="411dp"
+        android:layout_height="35dp"
+        android:textAlignment="center"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/itemList"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvDate" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/itemList"
+        android:layout_width="411dp"
+        android:layout_height="504dp"
+        app:layout_constraintBottom_toTopOf="@+id/btnBasket"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvOpening" />
+
+    <Button
+        android:id="@+id/btnBasket"
+        android:layout_width="411dp"
+        android:layout_height="50dp"
+        android:text="@string/view_basket"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/itemList" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

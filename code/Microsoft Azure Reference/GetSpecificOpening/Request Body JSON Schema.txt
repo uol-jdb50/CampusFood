@@ -1,0 +1,11 @@
+{
+    "properties": {
+        "date": {
+            "type": "string"
+        },
+        "location": {
+            "type": "string"
+        }
+    },
+    "type": "object"
+}

@@ -1,0 +1,17 @@
+{
+    "properties": {
+        "campus": {
+            "type": "string"
+        },
+        "location": {
+            "type": "string"
+        },
+        "order": {
+            "type": "string"
+        },
+        "verify": {
+            "type": "string"
+        }
+    },
+    "type": "object"
+}

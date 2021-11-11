@@ -1,0 +1,14 @@
+{
+    "properties": {
+        "category": {
+            "type": "string"
+        },
+        "date": {
+            "type": "string"
+        },
+        "location": {
+            "type": "string"
+        }
+    },
+    "type": "object"
+}

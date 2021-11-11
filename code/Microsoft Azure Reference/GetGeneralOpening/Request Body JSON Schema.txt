@@ -1,0 +1,11 @@
+{
+    "properties": {
+        "day": {
+            "type": "string"
+        },
+        "location": {
+            "type": "string"
+        }
+    },
+    "type": "object"
+}

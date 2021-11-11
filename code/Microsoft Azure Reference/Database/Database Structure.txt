@@ -1,0 +1,122 @@
+Table Allergens {
+  AllergenID int [pk, not null]
+  Name varchar [not null]
+}
+
+Table Campus {
+  CampusID varchar [pk, not null]
+  CampusName varchar [not null]
+}
+
+Ref: Campus.CampusID < Location.CampusID
+
+Table DayMenu {
+  MenuID varchar [pk, not null]
+  LocationID varchar [not null]
+  Date date [not null]
+  IsOpen bit
+  OpenTime int
+  CloseTime int
+}
+
+Ref: DayMenu.MenuID < MenuLines.MenuID
+
+Table Deals {
+  DealID varchar [pk, not null]
+  LocationID varchar [not null]
+  DealString varchar [not null]
+  Name varchar [not null]
+  Description varchar
+  StartDate date [not null]
+  EndDate date [not null]
+  Price smallmoney [not null]
+}
+
+Table Items {
+  ItemID varchar [pk, not null]
+  Name varchar [not null]
+  Description varchar [not null]
+  CategoryID varchar [not null]
+  LocationID varchar [not null]
+  Price smallmoney [not null]
+  ListOrder int [not null]
+  AllergenMatrix int
+}
+
+Ref: Items.ItemID < MenuLines.ItemID
+Ref: Items.ItemID < Offers.ItemID
+Ref: Items.ItemID < OrderItems.ItemID
+
+Table Location {
+  LocationID varchar [pk, not null]
+  Name varchar [not null]
+  CampusID varchar [not null]
+  Verify varchar
+}
+
+Ref: Location.LocationID < DayMenu.LocationID
+Ref: Location.LocationID < Deals.LocationID
+Ref: Location.LocationID < Items.LocationID
+Ref: Location.LocationID < LocationTimes.LocationID
+Ref: Location.LocationID < MenuCategories.LocationID
+Ref: Location.LocationID < Offers.LocationID
+Ref: Location.LocationID < Orders.LocationID
+
+Table LocationTimes {
+  LocationTimesID varchar [pk, not null]
+  LocationID varchar [not null]
+  DayNumber int [not null]
+  IsOpen bit [not null]
+  OpenTime int [not null]
+  CloseTime int [not null]
+}
+
+Table MenuCategories {
+  CategoryID varchar [pk, not null]
+  LocationID varchar [not null]
+  CategoryName varchar [not null]
+  CategoryOrder int
+}
+
+Ref: MenuCategories.CategoryID < Items.CategoryID
+
+Table MenuLines {
+  MenuID varchar [pk, not null]
+  ItemID varchar [not null]
+}
+
+Table Offers {
+  OfferID varchar [pk, not null]
+  ItemID varchar [not null]
+  StartDate date [not null]
+  EndDate date [not null]
+  OfferPrice smallmoney [not null]
+  LocationID varchar [not null]
+}
+
+Table OrderItems {
+  OrderID varchar [pk, not null]
+  ItemID varchar [pk, not null]
+  Quantity int [not null]
+}
+
+Table Orders {
+  OrderID varchar [pk, not null]
+  UserID varchar [not null]
+  LocationID varchar [not null]
+  OrderDate date [not null]
+  CollectDate date [not null]
+  TotalPrice smallmoney [not null]
+  CheckedIn bit [not null]
+  Collected bit [not null]
+  CollectName varchar [not null]
+}
+
+Ref: Orders.OrderID < OrderItems.OrderID
+
+Table Users {
+  UserID varchar [pk, not null]
+  AllergenMatrix int
+}
+
+Ref: Users.UserID < Orders.UserID

@@ -1,0 +1,56 @@
+{
+    "properties": {
+        "OutputParameters": {
+            "properties": {},
+            "type": "object"
+        },
+        "ResultSets": {
+            "properties": {
+                "Table1": {
+                    "items": {
+                        "properties": {
+                            "AllergenMatrix": {
+                                "type": "integer"
+                            },
+                            "CategoryID": {
+                                "type": "string"
+                            },
+                            "Description": {
+                                "type": "string"
+                            },
+                            "ItemID": {
+                                "type": "string"
+                            },
+                            "ListOrder": {
+                                "type": "integer"
+                            },
+                            "LocationID": {
+                                "type": "string"
+                            },
+                            "Name": {
+                                "type": "string"
+                            },
+                            "Price": {
+                                "type": "number"
+                            }
+                        },
+                        "required": [
+                            "ItemID",
+                            "Name",
+                            "Description",
+                            "CategoryID",
+                            "LocationID",
+                            "Price",
+                            "ListOrder",
+                            "AllergenMatrix"
+                        ],
+                        "type": "object"
+                    },
+                    "type": "array"
+                }
+            },
+            "type": "object"
+        }
+    },
+    "type": "object"
+}

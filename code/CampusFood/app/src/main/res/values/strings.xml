@@ -1,0 +1,35 @@
+<resources>
+    <string name="app_name">CampusFood</string>
+    <string name="prev"><![CDATA[<]]></string>
+    <string name="next"><![CDATA[>]]></string>
+    <string name="view_basket">View Basket</string>
+    <string name="order_now">Order Now</string>
+    <string name="your_basket">Your Basket</string>
+    <string name="collector_first_name">Collector First Name</string>
+    <string name="name">Name</string>
+    <string name="collection_location">Collection Location</string>
+    <string name="collection_date">Collection Date</string>
+    <string name="place_order">Place Order</string>
+    <string name="allergens">Allergens</string>
+    <string name="celery">Celery</string>
+    <string name="cereals_including_gluten">Cereals (including Gluten)</string>
+    <string name="save_allergen_settings">Save Allergen Settings</string>
+    <string name="vegan">Vegan</string>
+    <string name="vegetarian">Vegetarian</string>
+    <string name="other_dietary_requirements">Other Dietary Requirements</string>
+    <string name="sulphur_dioxide_or_sulphites">Sulphur Dioxide (or Sulphites)</string>
+    <string name="soya">Soya</string>
+    <string name="sesame_seeds">Sesame Seeds</string>
+    <string name="peanuts">Peanuts</string>
+    <string name="nuts">Nuts</string>
+    <string name="mustard">Mustard</string>
+    <string name="molluscs">Molluscs</string>
+    <string name="milk">Milk</string>
+    <string name="lupin">Lupin</string>
+    <string name="fish">Fish</string>
+    <string name="eggs">Eggs</string>
+    <string name="crustaceans">Crustaceans</string>
+    <string name="allergen_settings">Allergen Settings</string>
+    <string name="check_in">Check In</string>
+    <string name="cancel">Cancel Order</string>
+</resources>

@@ -1,0 +1,11 @@
+{
+    "properties": {
+        "date": {
+            "type": "string"
+        },
+        "user": {
+            "type": "string"
+        }
+    },
+    "type": "object"
+}

@@ -1,0 +1,24 @@
+{
+    "properties": {
+        "ResultSets": {
+            "properties": {
+                "Table1": {
+                    "items": {
+                        "properties": {
+                            "Verify": {
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "Verify"
+                        ],
+                        "type": "object"
+                    },
+                    "type": "array"
+                }
+            },
+            "type": "object"
+        }
+    },
+    "type": "object"
+}

@@ -1,0 +1,64 @@
+{
+    "definition": {
+        "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+        "actions": {
+            "Execute_a_SQL_query_(V2)": {
+                "inputs": {
+                    "body": {
+                        "query": "SELECT CampusName FROM Campus"
+                    },
+                    "host": {
+                        "connection": {
+                            "name": "@parameters('$connections')['sql']['connectionId']"
+                        }
+                    },
+                    "method": "post",
+                    "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent('campusfood.database.windows.net'))},@{encodeURIComponent(encodeURIComponent('CampusFood'))}/query/sql"
+                },
+                "runAfter": {},
+                "type": "ApiConnection"
+            },
+            "Response": {
+                "inputs": {
+                    "body": "@body('Execute_a_SQL_query_(V2)')?['resultsets']?['Table1']",
+                    "statusCode": 200
+                },
+                "kind": "Http",
+                "runAfter": {
+                    "Execute_a_SQL_query_(V2)": [
+                        "Succeeded"
+                    ]
+                },
+                "type": "Response"
+            }
+        },
+        "contentVersion": "1.0.0.0",
+        "outputs": {},
+        "parameters": {
+            "$connections": {
+                "defaultValue": {},
+                "type": "Object"
+            }
+        },
+        "triggers": {
+            "manual": {
+                "inputs": {
+                    "method": "POST"
+                },
+                "kind": "Http",
+                "type": "Request"
+            }
+        }
+    },
+    "parameters": {
+        "$connections": {
+            "value": {
+                "sql": {
+                    "connectionId": "/subscriptions/9a1e5ebb-2d4c-49be-ba77-8bdd414e611a/resourceGroups/co4015_jdb50/providers/Microsoft.Web/connections/sql-1",
+                    "connectionName": "sql-1",
+                    "id": "/subscriptions/9a1e5ebb-2d4c-49be-ba77-8bdd414e611a/providers/Microsoft.Web/locations/uksouth/managedApis/sql"
+                }
+            }
+        }
+    }
+}

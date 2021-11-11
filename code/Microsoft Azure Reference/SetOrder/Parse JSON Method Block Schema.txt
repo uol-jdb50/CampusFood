@@ -1,0 +1,19 @@
+{
+    "properties": {
+        "Table1": {
+            "items": {
+                "properties": {
+                    "LocationID": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "LocationID"
+                ],
+                "type": "object"
+            },
+            "type": "array"
+        }
+    },
+    "type": "object"
+}

@@ -1,0 +1,285 @@
+{
+    "definition": {
+        "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+        "actions": {
+            "Condition": {
+                "actions": {
+                    "Execute_a_SQL_query_(V2)_5": {
+                        "inputs": {
+                            "body": {
+                                "query": "UPDATE Users SET UserID='@{triggerBody()?['user']}', AllergenMatrix='@{triggerBody()?['allergens']}' WHERE UserID='@{triggerBody()?['user']}'"
+                            },
+                            "host": {
+                                "connection": {
+                                    "name": "@parameters('$connections')['sql']['connectionId']"
+                                }
+                            },
+                            "method": "post",
+                            "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent('campusfood.database.windows.net'))},@{encodeURIComponent(encodeURIComponent('CampusFood'))}/query/sql"
+                        },
+                        "runAfter": {},
+                        "type": "ApiConnection"
+                    }
+                },
+                "else": {
+                    "actions": {
+                        "Execute_a_SQL_query_(V2)_6": {
+                            "inputs": {
+                                "body": {
+                                    "query": "INSERT INTO Users VALUES ('@{triggerBody()?['user']}', '@{triggerBody()?['allergens']}')"
+                                },
+                                "host": {
+                                    "connection": {
+                                        "name": "@parameters('$connections')['sql']['connectionId']"
+                                    }
+                                },
+                                "method": "post",
+                                "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent('campusfood.database.windows.net'))},@{encodeURIComponent(encodeURIComponent('CampusFood'))}/query/sql"
+                            },
+                            "runAfter": {},
+                            "type": "ApiConnection"
+                        }
+                    }
+                },
+                "expression": {
+                    "and": [
+                        {
+                            "contains": [
+                                "@body('Execute_a_SQL_query_(V2)_4')?['resultsets']",
+                                "Table1"
+                            ]
+                        }
+                    ]
+                },
+                "runAfter": {
+                    "Execute_a_SQL_query_(V2)_4": [
+                        "Succeeded"
+                    ]
+                },
+                "type": "If"
+            },
+            "Execute_a_SQL_query_(V2)_3": {
+                "inputs": {
+                    "body": {
+                        "query": "SELECT LocationID FROM Location WHERE Name='@{triggerBody()?['location']}' AND CampusID=(SELECT CampusID FROM Campus WHERE CampusName='@{triggerBody()?['campus']}')"
+                    },
+                    "host": {
+                        "connection": {
+                            "name": "@parameters('$connections')['sql']['connectionId']"
+                        }
+                    },
+                    "method": "post",
+                    "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent('campusfood.database.windows.net'))},@{encodeURIComponent(encodeURIComponent('CampusFood'))}/query/sql"
+                },
+                "runAfter": {
+                    "Condition": [
+                        "Succeeded"
+                    ]
+                },
+                "type": "ApiConnection"
+            },
+            "Execute_a_SQL_query_(V2)_4": {
+                "inputs": {
+                    "body": {
+                        "query": "SELECT UserID FROM Users WHERE UserID='@{triggerBody()?['user']}'"
+                    },
+                    "host": {
+                        "connection": {
+                            "name": "@parameters('$connections')['sql']['connectionId']"
+                        }
+                    },
+                    "method": "post",
+                    "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent('campusfood.database.windows.net'))},@{encodeURIComponent(encodeURIComponent('CampusFood'))}/query/sql"
+                },
+                "runAfter": {},
+                "type": "ApiConnection"
+            },
+            "For_each": {
+                "actions": {
+                    "For_each_3": {
+                        "actions": {
+                            "Execute_a_SQL_query_(V2)_2": {
+                                "inputs": {
+                                    "body": {
+                                        "query": "INSERT INTO OrderItems (OrderID, ItemID, Quantity) VALUES\n\t('@{triggerBody()?['orderid']}',\n\t(SELECT ItemID FROM Items WHERE Name='@{items('For_each')?['itemName']}' AND CategoryID=(SELECT CategoryID FROM MenuCategories WHERE LocationID='@{items('For_each_3')?['LocationID']}' AND CategoryName='@{items('For_each')?['category']}') AND LocationID='@{items('For_each_3')?['LocationID']}'),\n\t@{items('For_each')?['quantity']});"
+                                    },
+                                    "host": {
+                                        "connection": {
+                                            "name": "@parameters('$connections')['sql']['connectionId']"
+                                        }
+                                    },
+                                    "method": "post",
+                                    "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent('campusfood.database.windows.net'))},@{encodeURIComponent(encodeURIComponent('CampusFood'))}/query/sql"
+                                },
+                                "runAfter": {},
+                                "type": "ApiConnection"
+                            }
+                        },
+                        "foreach": "@body('Parse_JSON')?['Table1']",
+                        "runAfter": {},
+                        "type": "Foreach"
+                    }
+                },
+                "foreach": "@triggerBody()?['items']",
+                "runAfter": {
+                    "For_each_2": [
+                        "Succeeded"
+                    ]
+                },
+                "type": "Foreach"
+            },
+            "For_each_2": {
+                "actions": {
+                    "Execute_a_SQL_query_(V2)": {
+                        "inputs": {
+                            "body": {
+                                "query": "INSERT INTO Orders (OrderID, UserID, LocationID, OrderDate, CollectDate, TotalPrice, CheckedIn, Collected, CollectName) VALUES \n\t('@{triggerBody()?['orderid']}',\n\t'@{triggerBody()?['user']}',\n'@{items('For_each_2')?['LocationID']}',\n\t'@{triggerBody()?['orderdate']}',\n\t'@{triggerBody()?['collectdate']}',\n\t@{triggerBody()?['total']},\n\t0,\n\t0,\n\t'@{triggerBody()?['name']}');"
+                            },
+                            "host": {
+                                "connection": {
+                                    "name": "@parameters('$connections')['sql']['connectionId']"
+                                }
+                            },
+                            "method": "post",
+                            "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent('campusfood.database.windows.net'))},@{encodeURIComponent(encodeURIComponent('CampusFood'))}/query/sql"
+                        },
+                        "runAfter": {},
+                        "type": "ApiConnection"
+                    }
+                },
+                "foreach": "@body('Parse_JSON')?['Table1']",
+                "runAfter": {
+                    "Parse_JSON": [
+                        "Succeeded"
+                    ]
+                },
+                "type": "Foreach"
+            },
+            "Parse_JSON": {
+                "inputs": {
+                    "content": "@body('Execute_a_SQL_query_(V2)_3')?['resultsets']",
+                    "schema": {
+                        "properties": {
+                            "Table1": {
+                                "items": {
+                                    "properties": {
+                                        "LocationID": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "LocationID"
+                                    ],
+                                    "type": "object"
+                                },
+                                "type": "array"
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "runAfter": {
+                    "Execute_a_SQL_query_(V2)_3": [
+                        "Succeeded"
+                    ]
+                },
+                "type": "ParseJson"
+            },
+            "Response": {
+                "inputs": {
+                    "body": "Order placed successfully",
+                    "statusCode": 200
+                },
+                "kind": "Http",
+                "runAfter": {
+                    "For_each": [
+                        "Succeeded"
+                    ]
+                },
+                "type": "Response"
+            }
+        },
+        "contentVersion": "1.0.0.0",
+        "outputs": {},
+        "parameters": {
+            "$connections": {
+                "defaultValue": {},
+                "type": "Object"
+            }
+        },
+        "triggers": {
+            "manual": {
+                "inputs": {
+                    "method": "POST",
+                    "schema": {
+                        "properties": {
+                            "allergens": {
+                                "type": "string"
+                            },
+                            "campus": {
+                                "type": "string"
+                            },
+                            "collectdate": {
+                                "type": "string"
+                            },
+                            "items": {
+                                "items": {
+                                    "properties": {
+                                        "category": {
+                                            "type": "string"
+                                        },
+                                        "itemName": {
+                                            "type": "string"
+                                        },
+                                        "quantity": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "itemName",
+                                        "category",
+                                        "quantity"
+                                    ],
+                                    "type": "object"
+                                },
+                                "type": "array"
+                            },
+                            "location": {
+                                "type": "string"
+                            },
+                            "name": {
+                                "type": "string"
+                            },
+                            "orderdate": {
+                                "type": "string"
+                            },
+                            "orderid": {
+                                "type": "string"
+                            },
+                            "total": {
+                                "type": "string"
+                            },
+                            "user": {
+                                "type": "string"
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "kind": "Http",
+                "type": "Request"
+            }
+        }
+    },
+    "parameters": {
+        "$connections": {
+            "value": {
+                "sql": {
+                    "connectionId": "/subscriptions/9a1e5ebb-2d4c-49be-ba77-8bdd414e611a/resourceGroups/co4015_jdb50/providers/Microsoft.Web/connections/sql-1",
+                    "connectionName": "sql-1",
+                    "id": "/subscriptions/9a1e5ebb-2d4c-49be-ba77-8bdd414e611a/providers/Microsoft.Web/locations/uksouth/managedApis/sql"
+                }
+            }
+        }
+    }
+}

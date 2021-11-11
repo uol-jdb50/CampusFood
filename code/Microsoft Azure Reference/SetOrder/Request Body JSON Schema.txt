@@ -1,0 +1,54 @@
+{
+    "properties": {
+        "allergens": {
+            "type": "string"
+        },
+        "campus": {
+            "type": "string"
+        },
+        "collectdate": {
+            "type": "string"
+        },
+        "items": {
+            "items": {
+                "properties": {
+                    "category": {
+                        "type": "string"
+                    },
+                    "itemName": {
+                        "type": "string"
+                    },
+                    "quantity": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "itemName",
+                    "category",
+                    "quantity"
+                ],
+                "type": "object"
+            },
+            "type": "array"
+        },
+        "location": {
+            "type": "string"
+        },
+        "name": {
+            "type": "string"
+        },
+        "orderdate": {
+            "type": "string"
+        },
+        "orderid": {
+            "type": "string"
+        },
+        "total": {
+            "type": "string"
+        },
+        "user": {
+            "type": "string"
+        }
+    },
+    "type": "object"
+}
